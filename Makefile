@@ -1,4 +1,3 @@
-
 .PHONY: all build test run clean
 
 # Variables
@@ -10,6 +9,14 @@ MAIN_PATH=cmd/gomon/main.go
 VERSION?=0.1.0
 COMMIT=$(shell git rev-parse --short HEAD)
 BUILD_TIME=$(shell date -u '+%Y-%m-%d_%H:%M:%S')
+
+# Couleurs pour le formatage
+BOLD := $(shell tput bold)
+BLUE := $(shell tput setaf 4)
+GREEN := $(shell tput setaf 2)
+YELLOW := $(shell tput setaf 3)
+RED := $(shell tput setaf 1)
+RESET := $(shell tput sgr0)
 
 all: test build
 
@@ -44,14 +51,10 @@ lint:
 	golint ./...
 	$(GO) vet ./...
 
-# Pour tester manuellement les endpoints
+# Pour tester manuellement les endpoints avec un affichage amélioré
 test-endpoints:
-	@echo "Testing health endpoint..."
-	@curl -i http://localhost:8080/health
-	@echo "\n\nTesting stats endpoint..."
-	@curl -i http://localhost:8080/stats
-	@echo "\n\nTesting metrics endpoint..."
-	@curl -i http://localhost:8080/metrics
+	@echo "Testing Gomon endpoints..."
+	@bash scripts/test-endpoints.sh || echo "Error: Server must be running. Start with 'make run' first"
 
 # Pour lancer le serveur
 run-server:
