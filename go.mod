@@ -1,3 +1,3 @@
-module github.com/salignatmoandal/gomon
+module gomon
 
 go 1.24.0

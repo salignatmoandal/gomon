@@ -14,9 +14,13 @@ type Metrics struct {
 	LastRequestTime time.Time
 }
 
+func (m *Metrics) IncRequestCount() {
+	panic("unimplemented")
+}
+
 var metrics *Metrics
 
-func trackRequest(duration time.Duration, hasError bool) {
+func TrackRequest(duration time.Duration, hasError bool) {
 	metrics.mu.Lock()
 	defer metrics.mu.Unlock()
 
@@ -29,7 +33,7 @@ func trackRequest(duration time.Duration, hasError bool) {
 
 }
 
-func getStats() map[string]interface{} {
+func GetStats() map[string]interface{} {
 	metrics.mu.RLock()
 	defer metrics.mu.RUnlock()
 

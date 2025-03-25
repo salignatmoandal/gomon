@@ -1,0 +1,40 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+Contexte du projet :
+Gomon est un outil open-source, self-hosted, et embeddable de monitoring pour les applications écrites en Go. Il permet de collecter et exposer des métriques essentielles (latence, erreurs HTTP, goroutines, mémoire allouée…) via une API HTTP REST, un endpoint Prometheus, et un serveur de profiling `pprof`.
+
+Objectifs :
+- Offrir une alternative ultra-légère à Prometheus/Grafana pour les développeurs Go.
+- Permettre l'intégration directe dans n'importe quelle application Go via un middleware.
+- Être autonome (pas de dépendances comme Redis ou base de données).
+- Être déployable en local ou sur des serveurs edge (Raspberry Pi, VPS, etc.).
+- Fournir une base extensible (alerte webhook, dashboard UI, export OpenTelemetry…).
+
+Tech stack :
+- Go (backend API, tracking, profiling, exporter Prometheus)
+- HTTP natif (`net/http`)
+- pprof intégré
+- Possibilité future d'une UI React/Next.js
+
+Architecture :
+- `/cmd/gomon/` → Entrée du serveur HTTP (main.go)
+- `/internal/core/` → Collecte des métriques, tracker, logger, profiler
+- `/internal/api/` → Handlers HTTP : /stats, /metrics, /health
+- `/internal/config/` → Lecture de configuration (port, env, etc.)
+- `/ui/` (à venir) → Dashboard web React
+- `Makefile` + Dockerfile pour dev & distribution
+
+Fonctionnalités existantes :
+- Middleware `TrackHandler()` pour suivre les requêtes HTTP (latence, erreurs)
+- Endpoint `/stats` (JSON) et `/metrics` (format Prometheus)
+- Profiling `/debug/pprof`
+- Logger basique stdout
+- Configurable via `.env` ou variables d’environnement
+
+Ce que je souhaite :
+- Maintenir un code clair, idiomatique Go
+- Étendre facilement avec de nouveaux modules sans casser la base
+- Préparer le projet à une release GitHub open-source bien présentée

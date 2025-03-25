@@ -15,7 +15,10 @@ func HealthHandler(w http.ResponseWriter, r *http.Request) {
 func StatsHandler(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	stats := core.GetStats()
-	json.NewEncoder(w).Encode(stats)
+	if err := json.NewEncoder(w).Encode(stats); err != nil {
+		http.Error(w, "Erreur interne", http.StatusInternalServerError)
+		return
+	}
 }
 
 func PrometheusHandler(w http.ResponseWriter, r *http.Request) {
