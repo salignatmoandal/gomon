@@ -8,7 +8,7 @@ import (
 
 func StartProfiler(port string) {
 	go func() {
-		LogoInfo("Profiler started on port " + port)
+		LogInfo("Profiler started on port " + port)
 		http.ListenAndServe(":"+port, nil)
 	}()
 

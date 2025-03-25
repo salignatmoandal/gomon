@@ -10,10 +10,10 @@ var (
 	errorLogger = log.New(os.Stderr, "ERROR: ", log.Ldate|log.Ltime|log.Lshortfile)
 )
 
-func LogoInfo(msg string) {
+func LogInfo(msg string) {
 	infoLogger.Println(msg)
 }
 
-func LogoError(err error) {
+func LogError(err error) {
 	errorLogger.Println(err)
 }

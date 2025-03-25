@@ -9,8 +9,8 @@ import (
 func main() {
 	conf := config.Load()
 
-	core.LogInfo("Starting profiler on " + conf.ProfilerPort)
-	core.StartProfiler(conf.ProfilerPort)
+	core.LogInfo("Starting profiler on " + conf.ProfilePort)
+	core.StartProfiler(conf.ProfilePort)
 
 	core.LogInfo("Starting Gomon HTTP API on " + conf.ServerPort)
 	api.StartServer(conf.ServerPort)
