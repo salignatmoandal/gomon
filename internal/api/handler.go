@@ -9,7 +9,7 @@ import (
 
 func HealthHandler(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusOK)
-	w.Write([]byte("Gomon is healthy"))
+	w.Write([]byte("Gomon is healthy\n"))
 }
 
 func StatsHandler(w http.ResponseWriter, r *http.Request) {
@@ -26,7 +26,10 @@ func PrometheusHandler(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "text/plain")
 
 	for k, v := range stats {
-		w.Write([]byte("gomon_" + k + " " + formatPrometheusValue(v) + "\n"))
+		w.Write([]byte(fmt.Sprintf("gomon_%s{version=\"%s\"} %s\n",
+			k,
+			"0.1.0",
+			formatPrometheusValue(v))))
 	}
 }
 

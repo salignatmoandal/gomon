@@ -20,6 +20,12 @@ func (m *Metrics) IncRequestCount() {
 
 var metrics *Metrics
 
+func init() {
+	metrics = &Metrics{
+		LastRequestTime: time.Now(),
+	}
+}
+
 func TrackRequest(duration time.Duration, hasError bool) {
 	metrics.mu.Lock()
 	defer metrics.mu.Unlock()

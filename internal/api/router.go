@@ -9,7 +9,7 @@ func StartServer(port string) {
 	http.HandleFunc("/stats", StatsHandler)
 	http.HandleFunc("/metrics", PrometheusHandler)
 
-	if err := http.ListenAndServe(port, nil); err != nil {
+	if err := http.ListenAndServe(":"+port, nil); err != nil {
 		panic("failed to start HTTP server: " + err.Error())
 	}
 }
