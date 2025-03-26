@@ -6,6 +6,13 @@ import (
 	"time"
 )
 
+// -- Metrics Struct --//
+// The Metrics struct holds the data for monitoring the application's performance.
+// Field : mu is a sync.RWMutex used to synchronize access to the metrics.
+// Field : RequestCount is the number of requests processed.
+// Field : TotalLatency is the total time taken to process all requests.
+// Field : ErrorCount is the number of requests that resulted in an error.
+// Field : LastRequestTime is the time of the last request.
 type Metrics struct {
 	mu              sync.RWMutex
 	RequestCount    int64
@@ -16,6 +23,8 @@ type Metrics struct {
 
 var metrics *Metrics
 
+// -- init Function --//
+// The init function initializes the metrics struct and sets the LastRequestTime to the current time.
 func init() {
 	metrics = &Metrics{
 		LastRequestTime: time.Now(),
