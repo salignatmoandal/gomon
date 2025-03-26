@@ -1,9 +1,9 @@
 package core
 
 import (
-	"runtime"
-	"sync"
-	"time"
+	"runtime" // runtime package provides functions to get runtime information
+	"sync"    // sync package provides synchronization primitives
+	"time"    // time package provides functions to get the current time
 )
 
 // -- Metrics Struct --//
@@ -31,6 +31,12 @@ func init() {
 	}
 }
 
+// -- TrackRequest Function --//
+// Purpose : TrackRequest function updates the metrics after each request.
+// Process :
+// 1. Locking : The function Locks the mutex to ensure that updates to the metrics are thread-safe.
+// 2. Updating Metrics :  Increment Request Count, error tracking
+// 3.  Unlocking : The mutex is automatically released when the function returns.
 func TrackRequest(duration time.Duration, hasError bool) {
 	metrics.mu.Lock()
 	defer metrics.mu.Unlock()
@@ -44,6 +50,12 @@ func TrackRequest(duration time.Duration, hasError bool) {
 
 }
 
+// -- GetStats Function --//
+// Purpose : This function provides a snapshot of the current metrics along with some runtime statistics
+// Process :
+// 1. Read Lock : The function Locks the mutex to ensure that updates to the metrics are thread-safe.
+// 2. Memory Stats : The function reads the current values of the metrics. it creates a runtime.MemStats variable to get memory usage statistics.
+// 3. Return Metrics
 func GetStats() map[string]interface{} {
 	metrics.mu.RLock()
 	defer metrics.mu.RUnlock()
