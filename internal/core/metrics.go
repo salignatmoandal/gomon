@@ -6,6 +6,11 @@ import (
 	"time"    // time package provides functions to get the current time
 )
 
+// Summary of the Metrics Struct :
+// 1. Thread-safe : The Metrics struct uses a sync.RWMutex to synchronize access to the metrics.
+// 2. Comprehensive Data Collection : The system tracks both application-specific metrics (request count, error count, latency) and runtime statistics (goroutine count, memory usage).
+// 3. Ease of Integration : With fonction like TrackRequest and GetStats,ntegrating this metrics system into your HTTP handlers is straightforward, facilitating real-time monitoring and troubleshooting in the Gomon project.
+
 // -- Metrics Struct --//
 // The Metrics struct holds the data for monitoring the application's performance.
 // Field : mu is a sync.RWMutex used to synchronize access to the metrics.
@@ -73,6 +78,12 @@ func GetStats() map[string]interface{} {
 	}
 }
 
+// -- avgLatency Function --//
+// Purpose : This function calculates the average latency of the requests.
+// Process :
+// 1. Division Safety : The function checks if the request count is 0, if so it returns 0.
+// 2. Calculate the average latency by dividing the total latency by the request count.
+// 3. Return the average latency.
 func avgLatency() float64 {
 	if metrics.RequestCount == 0 {
 		return 0
