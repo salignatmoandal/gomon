@@ -14,10 +14,6 @@ type Metrics struct {
 	LastRequestTime time.Time
 }
 
-func (m *Metrics) IncRequestCount() {
-	panic("unimplemented")
-}
-
 var metrics *Metrics
 
 func init() {
