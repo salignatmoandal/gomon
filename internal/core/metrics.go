@@ -34,6 +34,14 @@ func init() {
 	metrics = &Metrics{
 		LastRequestTime: time.Now(),
 	}
+
+	// Lance la routine de nettoyage du cache
+	go func() {
+		ticker := time.NewTicker(time.Minute)
+		for range ticker.C {
+			cache.Cleanup()
+		}
+	}()
 }
 
 // -- TrackRequest Function --//
@@ -55,6 +63,8 @@ func TrackRequest(duration time.Duration, hasError bool) {
 
 }
 
+const metricsKey = "current_metrics"
+
 // -- GetStats Function --//
 // Purpose : This function provides a snapshot of the current metrics along with some runtime statistics
 // Process :
@@ -62,13 +72,19 @@ func TrackRequest(duration time.Duration, hasError bool) {
 // 2. Memory Stats : The function reads the current values of the metrics. it creates a runtime.MemStats variable to get memory usage statistics.
 // 3. Return Metrics
 func GetStats() map[string]interface{} {
+	// Essaie de récupérer les métriques du cache
+	if cachedStats, found := cache.Get(metricsKey); found {
+		return cachedStats.(map[string]interface{})
+	}
+
+	// Si pas dans le cache, calcule les nouvelles métriques
 	metrics.mu.RLock()
 	defer metrics.mu.RUnlock()
 
 	var mem runtime.MemStats
 	runtime.ReadMemStats(&mem)
 
-	return map[string]interface{}{
+	stats := map[string]interface{}{
 		"request_count":     metrics.RequestCount,
 		"avg_latency":       avgLatency(),
 		"error_count":       metrics.ErrorCount,
@@ -76,6 +92,11 @@ func GetStats() map[string]interface{} {
 		"goroutines":        runtime.NumGoroutine(),
 		"memory_usage":      mem.TotalAlloc / 1024,
 	}
+
+	// Stocke les métriques dans le cache
+	cache.Set(metricsKey, stats)
+
+	return stats
 }
 
 // -- avgLatency Function --//
