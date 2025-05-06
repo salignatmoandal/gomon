@@ -295,4 +295,3 @@ export GOMON_PROFILE_PORT=6062
    - Ensure handlers are wrapped with `TrackHandler`
    - Check correct port configuration
 
-For more examples and detailed documentation, visit our [Wiki](https://github.com/yourusername/gomon/wiki).
