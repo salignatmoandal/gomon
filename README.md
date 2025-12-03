@@ -2,13 +2,13 @@ Gomon is a lightweight, self-hosted monitoring solution for Go applications. It 
 
 ## Features
 
-- 🚀 Lightweight and embedded monitoring
-- 📊 HTTP metrics tracking (latency, errors, requests)
-- 🔍 Prometheus metrics endpoint
-- 🛠 Built-in pprof profiling
-- 🔒 Zero external dependencies
-- 🌐 RESTful API for metrics
-- ⚡ Minimal overhead
+-  Lightweight and embedded monitoring
+-  HTTP metrics tracking (latency, errors, requests)
+-  Prometheus metrics endpoint
+-  Built-in pprof profiling
+-  Zero external dependencies
+-  RESTful API for metrics
+-  Minimal overhead
 
 
 ## Quick Start
